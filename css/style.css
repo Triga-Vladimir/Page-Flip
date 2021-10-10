@@ -1,0 +1,108 @@
+:root {
+  --duration: 200ms;
+  --ease-in: cubic-bezier(0.85, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.3, 1);
+  --ease-in-out: ease-in-out;
+}
+
+html,
+body,
+section {
+  height: 100%;
+}
+
+@keyframes zoom-1 {
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(0.75);
+    box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.1);
+  }
+}
+@keyframes zoom-2 {
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(0.75);
+    box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.1);
+  }
+}
+
+section {
+  animation: zoom-1 calc(var(--duration) * 2) var(--ease-in-out);
+  border-radius: 1vh;
+  box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2);
+  display: flex;
+  perspective: 2000px;
+  position: relative;
+  transform: scale(0.8);
+  width: 100%;
+}
+
+/* duplicating the animation to get it to fire again */
+section.flip {
+  animation: zoom-2 calc(var(--duration) * 2) var(--ease-in-out);
+}
+
+.left,
+.right {
+  backface-visibility: hidden;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition-property: transform;
+  transition-duration: var(--duration);
+  width: 50%;
+}
+
+.current {
+  background-image: url(../img/body01.jpg);
+}
+
+.next {
+  background-image: url(../img/body02.jpg);
+}
+
+.left {
+  border-radius: 1vh 0 0 1vh;
+  left: 0;
+  transform-origin: 100% 50%;
+}
+
+.right {
+  border-radius: 0 1vh 1vh 0;
+  right: 0;
+  transform-origin: 0% 50%;
+}
+
+.next.left {
+  transform: rotateY(90deg);
+  transition-delay: 0ms;
+  transition-timing-function: var(--ease-in);
+  z-index: 9;
+}
+
+.current.right {
+  transform: rotateY(0deg);
+  transition-delay: var(--duration);
+  transition-timing-function: var(--ease-out);
+}
+
+.flip .current.right {
+  transform: rotateY(-90deg);
+  transition-delay: 0ms;
+  transition-timing-function: var(--ease-in);
+}
+
+.flip .next.left {
+  transform: rotateY(0deg);
+  transition-delay: var(--duration);
+  transition-timing-function: var(--ease-out);
+}
